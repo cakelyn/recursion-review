@@ -30,9 +30,12 @@ var stringifyJSON = function(obj) {
   if (typeof obj === 'object') {
     var tempObj = [];
     for (var key in obj) {
-      tempObj.push( stringifyJSON(obj[key]) );
+      if (typeof obj[key] === 'function' || typeof obj[key] === 'undefined') {
+        continue;
+      }
+      tempObj.push( stringifyJSON(key) + ':' + stringifyJSON(obj[key]) );
     }
-    return '{}';
+    return '{' + tempObj.join(',') + '}';
   }
 
 };
